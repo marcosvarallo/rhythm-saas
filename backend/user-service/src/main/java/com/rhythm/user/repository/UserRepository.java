@@ -1,5 +1,6 @@
 package com.rhythm.user.repository;
 
+import com.rhythm.user.model.Tenant;
 import com.rhythm.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,6 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByTenantId(UUID tenantId);
     Optional<User> findByTenantIdAndEmail(UUID tenantId, String email);
+
+    List<User> findByTenant(Tenant tenant);
 }
