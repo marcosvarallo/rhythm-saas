@@ -22,8 +22,7 @@ public class UserController {
 
     @PostMapping("/tenants/{tenantId}/users")
     public ResponseEntity<UserResponseDto> create(@PathVariable UUID tenantId, @Valid @RequestBody UserCreateDto dto) {
-        dto.setTenantId(tenantId);
-        UserResponseDto createdUser = userService.create(dto);
+        UserResponseDto createdUser = userService.create(tenantId, dto);
         return ResponseEntity.created(URI.create("/api/users/" + createdUser.getId())).body(createdUser);
     }
 

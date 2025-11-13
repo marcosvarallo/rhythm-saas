@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.UUID;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,6 +28,5 @@ public class UserCreateDto {
     @NotBlank
     private String role;
 
-    @NotBlank
-    private UUID tenantId;
+    private String profile;
 }

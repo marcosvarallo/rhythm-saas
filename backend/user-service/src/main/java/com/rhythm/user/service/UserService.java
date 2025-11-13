@@ -24,15 +24,9 @@ public class UserService {
     private final TenantRepository tenantRepository;
 
     @Transactional
-    public UserResponseDto create(UserCreateDto dto) {
-        Tenant tenant = tenantRepository
-                .findById(dto.getTenantId())
-                .orElseThrow(() -> new BadRequestException("Tenant with id " + dto.getTenantId() + " not found"));
-
-        userRepository.findByTenantIdAndEmail(dto.getTenantId(), dto.getEmail())
-                .ifPresent(user -> {
-            throw new BadRequestException("User with email " + dto.getEmail() + " already exists in tenant " + tenant.getName());
-        });
+    public UserResponseDto create(UUID tenantId, UserCreateDto dto) {
+        Tenant tenant = tenantRepository.findById(tenantId)
+                .orElseThrow(() -> new RuntimeException("Tenant not found"));
 
         User user = User.builder()
                 .tenant(tenant)
@@ -41,7 +35,7 @@ public class UserService {
                 .phone(dto.getPhone())
                 .role(dto.getRole())
                 .specialty(dto.getSpecialty())
-                .profile("{}")
+                .profile(dto.getProfile())
                 .build();
         User savedUser = userRepository.save(user);
         return toDto(savedUser);
